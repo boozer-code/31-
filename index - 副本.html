@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>夫妻幽默笑话生成器</title>
+    <style>
+        body {
+            font-family: '微软雅黑', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        #container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #joke-box {
+            min-height: 200px;
+            padding: 20px;
+            border: 2px dashed #ffd93d;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #new-joke-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #show-answer-btn {
+            background-color: #ff6b6b;
+            color: white;
+            display: none; /* 初始隐藏 */
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .question {
+            color: #2d3436;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .answer {
+            color: #e55039;
+            font-size: 16px;
+            font-weight: bold;
+            display: none; /* 初始隐藏 */
+        }
+
+        .hint {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>👫 夫妻幽默笑话生成器</h1>
+        <div id="joke-box">
+            <p class="hint">点击下方按钮获取笑话</p>
+            <p class="question"></p>
+            <p class="answer"></p>
+        </div>
+        <div class="button-group">
+            <button id="new-joke-btn" onclick="showNewJoke()">随机问题</button>
+            <button id="show-answer-btn" onclick="showAnswer()">显示答案</button>
+        </div>
+    </div>
+
+    <script>
+        // 笑话数据库
+        const jokes = [
+            {
+                q: "老婆说「随便你」时，老公该怎么办？",
+                a: "立刻启动「求生模式」，因为「随便」的隐藏题库有1000道送命题"
+            },
+            {
+                q: "为什么老公永远记不住结婚纪念日？",
+                a: "因为他的大脑自动把「重要日期」归类为「已完成的成就」"
+            },
+            {
+                q: "夫妻共同账户的最大谎言是什么？",
+                a: "「我就看看，绝对不买！」（然后购物车满了）"
+            },
+            // 添加更多笑话...
+        ];
+
+        let currentAnswer = "";
+
+        function showNewJoke() {
+            const jokeBox = document.getElementById("joke-box");
+            const questionElement = jokeBox.querySelector('.question');
+            const answerElement = jokeBox.querySelector('.answer');
+            const hintElement = jokeBox.querySelector('.hint');
+            
+            // 随机选择笑话
+            const randomIndex = Math.floor(Math.random() * jokes.length);
+            const selectedJoke = jokes[randomIndex];
+            
+            // 更新内容
+            hintElement.style.display = 'none';
+            questionElement.innerHTML = `Q: ${selectedJoke.q}`;
+            answerElement.innerHTML = `A: ${selectedJoke.a}`;
+            answerElement.style.display = 'none';
+            currentAnswer = selectedJoke.a;
+            
+            // 显示答案按钮
+            document.getElementById('show-answer-btn').style.display = 'inline-block';
+            
+            // 动画效果
+            jokeBox.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                jokeBox.style.transform = "scale(1)";
+            }, 100);
+        }
+
+        function showAnswer() {
+            const answerElement = document.querySelector('.answer');
+            answerElement.style.display = 'block';
+            
+            // 隐藏答案按钮
+            document.getElementById('show-answer-btn').style.display = 'none';
+            
+            // 答案显示动画
+            answerElement.style.opacity = '0';
+            let opacity = 0;
+            const fadeIn = setInterval(() => {
+                opacity += 0.1;
+                answerElement.style.opacity = opacity;
+                if(opacity >= 1) clearInterval(fadeIn);
+            }, 50);
+        }
+    </script>
+</body>
+</html>
